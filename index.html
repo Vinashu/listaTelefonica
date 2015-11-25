@@ -29,8 +29,9 @@
 		}
 	</style>
 	<script src=lib/angular/angular.js></script>
+	<script src=lib/angular/angular-messages.js></script>	
 	<script>
-		var app = angular.module("listaTelefonica",[]);
+		var app = angular.module("listaTelefonica",["ngMessages"]);
 		app.controller("listaTelefonicaCtrl", function($scope){
 			$scope.app = "Lista Telefonica";
 			$scope.contatos = [
@@ -102,6 +103,17 @@
 				<option value="">Selecione uma operadora</option>
 			</select>
 		</form>
+		
+		<!--
+		<div ng-messages="contatoForm.nome.$error" class="alert alert-danger">	
+			<div ng-message="required" >
+				Por favor, preenchar o nome!	
+			</div>
+			<div ng-message="minlength" >
+				Campo nome deve ter no mínimo 10 caracteres.	
+			</div>		
+		</div>			
+		-->
 		<div ng-show="contatoForm.nome.$error.required && contatoForm.nome.$dirty" class="alert alert-danger">
 			Por favor, preenchar o nome!	
 		</div>
