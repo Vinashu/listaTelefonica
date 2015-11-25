@@ -34,9 +34,9 @@
 		app.controller("listaTelefonicaCtrl", function($scope){
 			$scope.app = "Lista Telefonica";
 			$scope.contatos = [
-				{nome: "Pedro", telefone: "99999999", cor:"blue"},
-				{nome: "Ana", telefone: "88888888", cor:"yellow"},
-				{nome: "Maria", telefone: "77777777", cor:"red"}								
+				{nome: "Pedro", telefone: "9999-9999", cor:"blue"},
+				{nome: "Ana", telefone: "8888-8888", cor:"yellow"},
+				{nome: "Maria", telefone: "7777-7777", cor:"red"}								
 			];
 			$scope.operadoras = [
 				{nome: "Oi", codigo:14, categoria:"Celular"},
@@ -97,7 +97,7 @@
 		<hr />
 		<form name="contatoForm">
 			<input class="form-control" type="text" ng-model="contato.nome" name="nome" placeholder="Nome" ng-required="true" ng-minlength="10" />
-			<input class="form-control" type="text" ng-model="contato.telefone" name="telefone" placeholder="Telefone" ng-required="true" />
+			<input class="form-control" type="text" ng-model="contato.telefone" name="telefone" placeholder="Telefone" ng-required="true" ng-pattern="/^\d{4,5}-\d{4}$/" />
 			<select class="form-control" ng-model="contato.operadora" ng-options="operadora.nome group by operadora.categoria for operadora in operadoras">
 				<option value="">Selecione uma operadora</option>
 			</select>
@@ -105,12 +105,15 @@
 		<div ng-show="contatoForm.nome.$error.required && contatoForm.nome.$dirty" class="alert alert-danger">
 			Por favor, preenchar o nome!	
 		</div>
-		<div ng-show="contatoForm.nome.$error.minlength && contatoForm.nome.$dirty" class="alert alert-danger">
+		<div ng-show="contatoForm.nome.$error.minlength" class="alert alert-danger">
 			Campo nome deve ter no mínimo 10 caracteres.	
 		</div>		
-		<div ng-show="contatoForm.telefone.$invalid  && contatoForm.telefone.$dirty" class="alert alert-danger">
+		<div ng-show="contatoForm.telefone.$error.required  && contatoForm.telefone.$dirty" class="alert alert-danger">
 			Por favor, preenchar o telefone!	
-		</div>		
+		</div>	
+		<div ng-show="contatoForm.telefone.$error.pattern" class="alert alert-danger">
+			O campo telefone deve ter o formato ####-####	
+		</div>				
 		<button class="btn btn-primary btn-block" ng-click="adicionarContato(contato)" 
 				ng-disabled="contatoForm.$invalid">Adicionar Contato</button>
 		<button class="btn btn-danger btn-block" ng-click="apagarContatos(contatos)"
