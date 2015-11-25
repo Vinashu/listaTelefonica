@@ -102,8 +102,13 @@
 		<button class="btn btn-primary btn-block" ng-click="adicionarContato(contato)" 
 				ng-disabled="!contato.nome || !contato.telefone">Adicionar Contato</button>
 		<button class="btn btn-danger btn-block" ng-click="apagarContatos(contatos)"
-				ng-hide="!isContatoSelecionado(contatos)">Apagar Contatos</button>				
+				ng-hide="!isContatoSelecionado(contatos)">Apagar Contatos</button>		
+		<!--		
+		<button class="btn btn-danger btn-block" ng-click="apagarContatos(contatos)"
+				ng-if="isContatoSelecionado(contatos)">Apagar Contatos</button>
+		-->						
 	</div>
+	<div ng-include="'footer.html'"></div>
 </body>
 
 </html>
