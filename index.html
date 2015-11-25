@@ -35,9 +35,9 @@
 		app.controller("listaTelefonicaCtrl", function($scope){
 			$scope.app = "Lista Telefonica";
 			$scope.contatos = [
-				{nome: "Pedro", telefone: "9999-9999", data: new Date(),cor:"blue", operadora: {nome: "Oi", codigo:14, categoria:"Celular"}},
-				{nome: "Ana", telefone: "8888-8888", data: new Date(),cor:"yellow", operadora: {nome: "Vivo", codigo:15, categoria: "Celular"}},
-				{nome: "Maria", telefone: "7777-7777", data: new Date(),cor:"red", operadora: {nome: "Tim", codigo:41, categoria: "Celular"}}								
+				{nome: "Pedro", telefone: "9999-9999", data: new Date(),cor:"purple", operadora: {nome: "Oi", codigo:14, categoria:"Celular"}},
+				{nome: "Ana", telefone: "8888-8888", data: new Date(),cor:"green", operadora: {nome: "Vivo", codigo:15, categoria: "Celular"}},
+				{nome: "Maria", telefone: "7777-7777", data: new Date(),cor:"blue", operadora: {nome: "Tim", codigo:41, categoria: "Celular"}}								
 			];
 			$scope.operadoras = [
 				{nome: "Oi", codigo:14, categoria:"Celular"},
@@ -64,6 +64,10 @@
 					return contato.selecionado;
 				});
 			};
+			$scope.ordenarPor = function(campo){
+				$scope.criterioDeOrdenacao = campo;	
+				$scope.direcaoDaOrdenacao = !$scope.direcaoDaOrdenacao;
+			};
 		});
 	</script>
 </head>
@@ -78,16 +82,16 @@
 		<table class="table" ng-show="contatos.length > 0">
 			<tr>
 				<th></th>
-				<th>Nome</th>
-				<th>Telefone</th>
+				<th><a href="" ng-click="ordenarPor('nome')" >Nome</a></th>
+				<th><a href="" ng-click="ordenarPor('telefone')" >Telefone</a></th>
 				<th>Operadora</th>
 				<th>Data</th>
 				<th></th>								
 			</tr>
 			<!--
-			<tr ng-class="{'selecionado negrito': contato.selecionado}" ng-repeat="contato in contatos | filter:criterioDeBusca">
-			-->			
 			<tr ng-class="{'selecionado negrito': contato.selecionado}" ng-repeat="contato in contatos | filter:{nome: criterioDeBusca}">
+			-->			
+			<tr ng-class="{'selecionado negrito': contato.selecionado}" ng-repeat="contato in contatos | filter:criterioDeBusca | orderBy:criterioDeOrdenacao:direcaoDaOrdenacao">
 				<!--
 				<td ng-repeat="(key,value) in contato">
 					{{value}}
@@ -105,7 +109,7 @@
 		<form name="contatoForm">
 			<input class="form-control" type="text" ng-model="contato.nome" name="nome" placeholder="Nome" ng-required="true" ng-minlength="10" />
 			<input class="form-control" type="text" ng-model="contato.telefone" name="telefone" placeholder="Telefone" ng-required="true" ng-pattern="/^\d{4,5}-\d{4}$/" />
-			<select class="form-control" ng-model="contato.operadora" ng-options="operadora.nome group by operadora.categoria for operadora in operadoras">
+			<select class="form-control" ng-model="contato.operadora" ng-options="operadora.nome group by operadora.categoria for operadora in operadoras | orderBy:'nome'">
 				<option value="">Selecione uma operadora</option>
 			</select>
 		</form>
