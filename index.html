@@ -20,6 +20,12 @@
 		.form-control {
 			margin-bottom: 5px;
 		}
+		.selecionado {
+			background-color: yellow;
+		}
+		.negrito {
+			font-weight: bold;
+		}
 	</style>
 	<script src=lib/angular/angular.js></script>
 	<script>
@@ -44,6 +50,12 @@
 				$scope.contatos.push(angular.copy(contato));
 				delete $scope.contato;
 			};
+			$scope.classe = "selecionado";
+			$scope.apagarContatos = function(contatos){
+				$scope.contatos = contatos.filter(function(contato){
+					if (!contato.selecionado) return contato;
+				});
+			};
 		});
 	</script>
 </head>
@@ -56,16 +68,18 @@
 		<h3>{{app}}</h3>
 		<table class="table table-striped">
 			<tr>
+				<th></th>
 				<th>Nome</th>
 				<th>Telefone</th>
 				<th>Operadora</th>				
 			</tr>
-			<tr ng-repeat="contato in contatos">
+			<tr ng-class="{'selecionado negrito': contato.selecionado}" ng-repeat="contato in contatos">
 				<!--
 				<td ng-repeat="(key,value) in contato">
 					{{value}}
 				</td>					
 				-->
+				<td><input  type="checkbox" ng-model="contato.selecionado" />
 				<td>{{contato.nome}}</td>
 				<td>{{contato.telefone}}</td>
 				<td>{{contato.operadora.nome}}</td>				
@@ -80,6 +94,7 @@
 		</select>
 		<button class="btn btn-primary btn-block" ng-click="adicionarContato(contato)" 
 				ng-disabled="!contato.nome || !contato.telefone">Adicionar Contato</button>
+		<button class="btn btn-danger btn-block" ng-click="apagarContatos(contatos)">Apagar Contatos</button>				
 	</div>
 </body>
 
