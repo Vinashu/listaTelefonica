@@ -36,10 +36,10 @@
 	<script src=lib/angular/angular-locale_pt-br.js></script>
 	<script>
 		var app = angular.module("listaTelefonica",["ngMessages"]);
-		app.controller("listaTelefonicaCtrl", function($scope){
+		app.controller("listaTelefonicaCtrl", function($scope, $filter){
 			$scope.app = "Lista Telefonica";
 			$scope.contatos = [
-				{nome: "Pedro", telefone: "9999-9999", data: new Date(),cor:"purple", operadora: {nome: "Oi", codigo:14, categoria:"Celular"}},
+				{nome: $filter('uppercase')("Pedro"), telefone: "9999-9999", data: new Date(),cor:"purple", operadora: {nome: "Oi", codigo:14, categoria:"Celular"}},
 				{nome: "Ana", telefone: "8888-8888", data: new Date(),cor:"green", operadora: {nome: "Vivo", codigo:15, categoria: "Celular"}},
 				{nome: "Maria", telefone: "7777-7777", data: new Date(),cor:"blue", operadora: {nome: "Tim", codigo:41, categoria: "Celular"}}								
 			];
@@ -102,7 +102,7 @@
 				</td>					
 				-->
 				<td><input  type="checkbox" ng-model="contato.selecionado" />
-				<td>{{contato.nome | uppercase | limitTo:10}}</td>
+				<td>{{contato.nome | limitTo:10}}</td>
 				<td>{{contato.telefone}}</td>
 				<td>{{contato.operadora.nome | lowercase}}</td>
 				<td>{{contato.data | date:'MMMM EEE dd/MM/yyyy hh:mm'}}</td>				
