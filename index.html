@@ -1,6 +1,7 @@
 <html ng-app="listaTelefonica">
 
 <head>
+	<meta charset="UTF-8">
 	<title>Lista Telefonica</title>
 	<link rel="stylesheet" type="text/css" href="lib/bootstrap/bootstrap.css">
 	<style>
@@ -49,6 +50,7 @@
 				//$scope.contatos.push(contato);
 				$scope.contatos.push(angular.copy(contato));
 				delete $scope.contato;
+				$scope.contatoForm.$setPristine();
 			};
 			$scope.classe = "selecionado";
 			$scope.apagarContatos = function(contatos){
@@ -93,20 +95,30 @@
 			</tr>
 		</table>
 		<hr />
-		{{contato}}
-		<input class="form-control" type="text" ng-model="contato.nome" placeholder="Nome" />
-		<input class="form-control" type="text" ng-model="contato.telefone" placeholder="Telefone" />
-		<select class="form-control" ng-model="contato.operadora" ng-options="operadora.nome group by operadora.categoria for operadora in operadoras">
-			<option value="">Selecione uma operadora</option>
-		</select>
+		<form name="contatoForm">
+			<input class="form-control" type="text" ng-model="contato.nome" name="nome" placeholder="Nome" ng-required="true" ng-minlength="10" />
+			<input class="form-control" type="text" ng-model="contato.telefone" name="telefone" placeholder="Telefone" ng-required="true" />
+			<select class="form-control" ng-model="contato.operadora" ng-options="operadora.nome group by operadora.categoria for operadora in operadoras">
+				<option value="">Selecione uma operadora</option>
+			</select>
+		</form>
+		<div ng-show="contatoForm.nome.$error.required && contatoForm.nome.$dirty" class="alert alert-danger">
+			Por favor, preenchar o nome!	
+		</div>
+		<div ng-show="contatoForm.nome.$error.minlength && contatoForm.nome.$dirty" class="alert alert-danger">
+			Campo nome deve ter no mínimo 10 caracteres.	
+		</div>		
+		<div ng-show="contatoForm.telefone.$invalid  && contatoForm.telefone.$dirty" class="alert alert-danger">
+			Por favor, preenchar o telefone!	
+		</div>		
 		<button class="btn btn-primary btn-block" ng-click="adicionarContato(contato)" 
-				ng-disabled="!contato.nome || !contato.telefone">Adicionar Contato</button>
+				ng-disabled="contatoForm.$invalid">Adicionar Contato</button>
 		<button class="btn btn-danger btn-block" ng-click="apagarContatos(contatos)"
 				ng-hide="!isContatoSelecionado(contatos)">Apagar Contatos</button>		
 		<!--		
 		<button class="btn btn-danger btn-block" ng-click="apagarContatos(contatos)"
 				ng-if="isContatoSelecionado(contatos)">Apagar Contatos</button>
-		-->						
+		-->							
 	</div>
 	<div ng-include="'footer.html'"></div>
 </body>
