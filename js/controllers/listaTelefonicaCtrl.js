@@ -1,9 +1,9 @@
-angular.module("listaTelefonica", ["ngMessages"]).controller("listaTelefonicaCtrl", function ($scope, $filter, $http) {
+angular.module("listaTelefonica", ["ngMessages"]).controller("listaTelefonicaCtrl", function ($scope, $filter, $http, contatosAPI) {
 	$scope.app = "Lista Telefonica";
 	$scope.contatos = [];
 	$scope.operadoras = [];
 	var carregarContatos = function () {
-		$http.get("contatos.txt").success(function (data, status) {
+		contatosAPI.getContatos().success(function (data, status) {
 			$scope.contatos = data;
 		}).error(function (data, status) {
 			$scope.message = "Aconteceu um problema: " + data;
@@ -20,7 +20,7 @@ angular.module("listaTelefonica", ["ngMessages"]).controller("listaTelefonicaCtr
 		//$scope.contatos.push({nome: $scope.nome, telefone: $scope.telefone});
 		//$scope.contatos.push(contato);
 		contato.data = new Date();
-		$http.post("contatos.txt", contato).success(function (data) {
+		contatosAPI.saveContato(contato).success(function (data) {
 			delete $scope.contato;
 			$scope.contatoForm.$setPristine();
 			carregarContatos();
