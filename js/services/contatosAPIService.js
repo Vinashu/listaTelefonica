@@ -1,10 +1,10 @@
-angular.module("listaTelefonica").factory("contatosAPI", function($http){
+angular.module("listaTelefonica").factory("contatosAPI", function($http, config){
 	var _getContatos = function(){
-		return $http.get("http://localhost:80/lista/contatos.txt");
+		return $http.get(config.baseUrl + "/contatos.txt");
 	};	
 	
 	var _saveContato = function(contato){
-		return $http.post("http://localhost:80/lista/contatos.txt",contato);
+		return $http.post(config.baseUrl + "/contatos.txt",contato);
 	};	
 		
 	return {
